@@ -268,6 +268,15 @@ loglevel 9
     chown root net_raw /dev/socket
     chmod 0775 /dev/socket
 
+    #permissions for sound     
+    chmod 666 /dev/snd/timer
+    chmod 666 /dev/snd/controlC0
+    chmod 666 /dev/snd/controlC1
+    chmod 666 /dev/snd/pcmC0D0c
+    chmod 666 /dev/snd/pcmC0D0p
+    chmod 666 /dev/snd/pcmC1D0c
+    chmod 666 /dev/snd/pcmC1D0p
+
     #camera fix thanks skeeterslint
     chmod 666 /dev/video0
     chmod 666 /dev/video1
