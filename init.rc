@@ -268,6 +268,14 @@ loglevel 9
     chown root net_raw /dev/socket
     chmod 0775 /dev/socket
 
+    #camera fix thanks skeeterslint
+    chmod 666 /dev/video0
+    chmod 666 /dev/video1
+    chmod 666 /dev/video14
+    chmod 666 /dev/video2
+    chmod 666 /dev/video21
+    chmod 666 /dev/video22
+
 # mount modules
     # insmod /lib/modules/dpram.ko
     # insmod /lib/modules/multipdp.ko
