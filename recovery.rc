@@ -112,16 +112,19 @@ loglevel 3
 
 # mount mtd partitions
     # mount system
-    mount ext4 /dev/block/stl9 /system noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    #mount ext4 /dev/block/stl9 /system noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    mount ext2 /dev/block/stl9 /system rw noatime nodiratime nodev
 
     # mount data
-    mount ext4 /dev/block/mmcblk0p2 /data nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    #mount ext4 /dev/block/mmcblk0p2 /data nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    mount rfs /dev/block/mmcblk0p2 /data nosuid nodev check=no
     chown system system /data
     chmod 0771 /data
 
     # mount dbdata
     mkdir /dbdata
-    mount ext4 /dev/block/stl10 /dbdata nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    #mount ext4 /dev/block/stl10 /dbdata nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    mount rfs /dev/block/stl10 /dbdata nosuid nodev check=no
     mkdir /dbdata/databases
     chown system system /dbdata
     chown system system /dbdata/databases
@@ -148,7 +151,8 @@ loglevel 3
     write /proc/apanic_console 1
 
     #mount cache
-    mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    #mount ext4 /dev/block/stl11 /cache nosuid nodev noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
+    mount rfs /dev/block/stl11 /cache nosuid nodev check=no
     chown system cache /cache
     chmod 0770 /cache
 
