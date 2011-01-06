@@ -415,14 +415,14 @@ on boot
     chown root radio /proc/cmdline
 
 # for Sensor HAL
-    chown system system /dev/akm8973_daemon
-    chmod 0777 /dev/akm8973_daemon
-    chown system system /dev/akm8973_aot
-    chmod 0777 /dev/accelerometer
-    chown system system /dev/accelerometer
-    chmod 0777 /dev/l3g4200d
-    chown system system /dev/l3g4200d
-    chmod 0777 /dev/akm8973_aot
+    chown compass compass /dev/akm8973_daemon
+    chmod 0666 /dev/akm8973_daemon
+    chown compass compass /dev/akm8973_aot
+    chmod 0666 /dev/accelerometer
+    chown compass compass /dev/accelerometer
+    chmod 0666 /dev/l3g4200d
+    chown compass compass /dev/l3g4200d
+    chmod 0666 /dev/akm8973_aot
 
 
 # Define TCP buffer sizes for various networks
@@ -464,6 +464,8 @@ on boot
 
     chown bluetooth bluetooth /dev/s3c2410_serial0
     chmod 0666 /dev/s3c2410_serial0
+    chown bluetooth bluetooth /dev/rfkill
+    chmod 0666 /dev/rfkill
     chmod 0777 /sys/class/rfkill/rfkill0/state
     chmod 0777 /sys/class/rfkill/rfkill1/state
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -514,9 +516,6 @@ service servicemanager /system/bin/servicemanager
     critical
     onrestart restart zygote
     onrestart restart media
-
-#magnetic sensor yamaha
-    onrestart restart sensor-daemon
 
 service vold /system/bin/vold
     socket vold stream 0660 root mount
@@ -603,7 +602,7 @@ service dbus /system/bin/dbus-daemon --system --nofork
     user root
     group root net_bt_admin
 
-service hciattach /system/bin/brcm_patchram_plus -d --enable_hci --baudrate 3000000 --patchram /system/bin/BCM4329B1_002.002.023.0417.0430.hcd /dev/s3c2410_serial0
+service hciattach /system/bin/brcm_patchram_plus -d --enable_hci --baudrate 3000000 --patchram /system/bin/BCM4329B1_002.002.023.0534.0590.hcd /dev/s3c2410_serial0
     user bluetooth
     group bluetooth net_bt_admin
     disabled
@@ -647,8 +646,8 @@ service installd /system/bin/installd
   # akmd service
   # FIXME start it always for now
 service akmd2 /system/bin/akmd2
-    user system
-    group system
+    user compass
+    group compass misc input
     
 #disabled
 #oneshot
