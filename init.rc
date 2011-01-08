@@ -643,12 +643,12 @@ service installd /system/bin/installd
 
 #END: BLUETOOTH
 
-  # akmd service
-  # FIXME start it always for now
-service akmd2 /system/bin/akmd2
+# akmd service
+# FIXME start it always for now
+service akmd /system/bin/akmd 0 0
     user compass
     group compass misc input
-    
+
 #disabled
 #oneshot
 
