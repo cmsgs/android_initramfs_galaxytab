@@ -118,7 +118,8 @@ loglevel 9
     # Mount /system rw first to give the filesystem a chance to save a checkpoint
     # mount yaffs2 mtd@system /system 
     #mount ext4 /dev/block/stl9 /system noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
-    mount ext2 /dev/block/stl9 /system ro noatime nodiratime nodev
+    #mount ext2 /dev/block/stl9 /system ro noatime nodiratime nodev
+    mount ext4 /dev/block/stl9 /system noatime nodiratime errors=continue nobh data=writeback barrier=0 noauto_da_alloc
 
     # We chown/chmod /data again so because mount is run as root + defaults
     # mount yaffs2 mtd@userdata /data nosuid nodev
@@ -200,7 +201,6 @@ loglevel 9
     chown root system /sys/class/gpio/gpio120/value
     chmod 664 /sys/class/gpio/gpio120/value
 
-    chmod 600 /system/etc/secgps.conf
 
 # create basic filesystem structure
     mkdir /data/misc 01771 system misc
@@ -543,12 +543,10 @@ service ril-daemon /system/bin/rild -l /system/lib/libsec-ril.so -- -d /dev/ttyS
 
 #will be started from libgps on demand to safe battery     
 # somehow it is not, so dont disable it
-#service glgps /system/bin/gpsd/glgps_samsungJupiter -c /system/etc/jupiter.xml normal
-service glgps /system/bin/gpsd/glgps_samsungJupiter -c /system/etc/jupiter.xml
+service glgps /system/bin/gpsd/glgps_samsungJupiter -c /system/etc/jupiter.xml normal
     user system
     group system inet
-
-#    disabled
+    disabled
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     socket zygote stream 666
