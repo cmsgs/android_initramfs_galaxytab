@@ -281,6 +281,20 @@ loglevel 9
     chmod 666 /dev/snd/pcmC1D0c
     chmod 666 /dev/snd/pcmC1D0p
 
+    setprop alsa.mixer.playback.master "Playback"
+    setprop alsa.mixer.playback.earpiece "Playback"
+    setprop alsa.mixer.playback.speaker "Playback Spkr"
+    setprop alsa.mixer.playback.headset "Playback Headset"
+    setprop alsa.mixer.playback.bluetooth.sco "Playback"
+    setprop alsa.mixer.playback.bluetooth.a2dp "Playback"
+
+    setprop alsa.mixer.record.master "Capture"
+    setprop alsa.mixer.record.earpiece "Capture"
+    setprop alsa.mixer.record.speaker "Capture"
+    setprop alsa.mixer.record.headset "Capture"
+    setprop alsa.mixer.record.bluetooth.sco "Capture"
+    setprop alsa.mixer.record.bluetooth.a2dp "Capture"
+
     #camera fix thanks skeeterslint
     chmod 666 /dev/video0
     chmod 666 /dev/video1
