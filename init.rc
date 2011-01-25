@@ -1,3 +1,6 @@
+on early-init
+    start ueventd
+
 on init
 
 sysclktz 0
@@ -86,7 +89,7 @@ loglevel 9
     mount tmpfs tmpfs /mnt/asec mode=0755,gid=1000
 
     mkdir /sd-ext 0771 system system
-    
+
     write /proc/sys/kernel/panic_on_oops 1
     write /proc/sys/kernel/hung_task_timeout_secs 0
     write /proc/cpu/alignment 4
@@ -215,13 +218,13 @@ loglevel 9
     mkdir /data/misc/vpn/profiles 0770 system system
     mkdir /data/misc/radio 0771 radio radio
 
-    # give system access to wpa_supplicant.conf for backup and restore
     mkdir /data/misc/wifi 0770 wifi wifi
     chmod 0770 /data/misc/wifi
-    mkdir /data/system/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     mkdir /data/wifi 0770 wifi wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/local 0771 shell shell
     mkdir /data/local/tmp 0771 shell shell
     mkdir /data/data 0771 system system
@@ -230,14 +233,14 @@ loglevel 9
     mkdir /data/property 0700 root root
 
     # create log system 
-    mkdir /data/log 0777 root root 
+    mkdir /data/log 0777 root root
     chmod 0777 /data/log
-    chmod 0777 /data/anr	
-    
+    chmod 0777 /data/anr
+
     chmod 0662 /dev/log/radio
     chmod 0662 /dev/log/main
-    chmod 0662 /dev/log/event    
-    	
+    chmod 0662 /dev/log/event
+
     # create dalvik-cache and double-check the perms
     mkdir /data/dalvik-cache 0771 system system
     chown system system /data/dalvik-cache
@@ -263,7 +266,7 @@ loglevel 9
     chmod 0770 /data/lost+found
     chown root root /cache/lost+found
     chmod 0770 /cache/lost+found
-    
+
     chown radio radio /dev/dpramerr
     chown radio radio /dev/dpram0
     chown radio radio /dev/dpram1
