@@ -195,13 +195,18 @@ loglevel 9
     chown root system /proc/sysrq-trigger
     chmod 0220 /proc/sysrq-trigger
 
+
 # create data/gps for GPS demon
-    chown root system /dev/s3c2410_serial1
-    chmod 664 /dev/s3c2410_serial1
-    mkdir /data/gps 771 system system
-    chown system system /data/gps
-    chown root system /sys/class/sec/gps/GPS_PWR_EN/value
-    chmod 664 /sys/class/sec/gps/GPS_PWR_EN/value
+    mkdir /data/gps 700 gps system
+    chown 1021 system /data/gps
+    chown 1021 root /sys/class/sec/gps/GPS_PWR_EN/value
+    chmod 660 /sys/class/sec/gps/GPS_PWR_EN/value
+    chown 1021 root /sys/class/sec/gps/GPS_nRST/value
+    chmod 660 /sys/class/sec/gps/GPS_nRST/value
+    chown 1021 system /dev/s3c2410_serial1
+    chmod 600 /dev/s3c2410_serial1
+
+# what are these for? they dont seem to exist
     chown root system /sys/class/gpio/gpio121/value
     chmod 664 /sys/class/gpio/gpio121/value
     chown root system /sys/class/gpio/gpio120/value
@@ -506,12 +511,10 @@ service ril-daemon /system/bin/rild -l /system/lib/libsec-ril.so -- -d /dev/ttyS
     user root
     group radio cache inet misc audio
 
-#will be started from libgps on demand to safe battery
-# somehow it is not, so dont disable it
-service glgps /system/bin/gpsd/glgps_samsungJupiter -c /system/etc/jupiter.xml normal
-    user system
+service gpsd /system/bin/gpsd -c /system/etc/gps.xml
+    socket gps stream 0660 1021 system
+    user 1021
     group system inet
-    disabled
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
     socket zygote stream 666
