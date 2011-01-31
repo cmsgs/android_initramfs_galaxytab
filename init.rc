@@ -66,9 +66,6 @@ loglevel 9
     mount j4fs /dev/block/stl6 /mnt/.lfs
     insmod /lib/modules/param.ko
 
-# Backwards Compat - XXX: Going away in G*
-    symlink /mnt/sdcard /sdcard
-    symlink /mnt/emmc /emmc
     mkdir /mnt/obb 0700 root system
     mount tmpfs tmpfs /mnt/obb mode=0755,gid=1000
 
@@ -198,12 +195,12 @@ loglevel 9
 
 # create data/gps for GPS demon
     mkdir /data/gps 700 gps system
-    chown 1021 system /data/gps
-    chown 1021 root /sys/class/sec/gps/GPS_PWR_EN/value
+    chown gps system /data/gps
+    chown gps root /sys/class/sec/gps/GPS_PWR_EN/value
     chmod 660 /sys/class/sec/gps/GPS_PWR_EN/value
-    chown 1021 root /sys/class/sec/gps/GPS_nRST/value
+    chown gps root /sys/class/sec/gps/GPS_nRST/value
     chmod 660 /sys/class/sec/gps/GPS_nRST/value
-    chown 1021 system /dev/s3c2410_serial1
+    chown gps system /dev/s3c2410_serial1
     chmod 600 /dev/s3c2410_serial1
 
 # what are these for? they dont seem to exist
@@ -454,6 +451,9 @@ on boot
 
 ## Daemon processes to be run by init.
 ##
+service ueventd /sbin/ueventd
+    critical
+
 service console /system/bin/sh
     console
 
@@ -512,8 +512,8 @@ service ril-daemon /system/bin/rild -l /system/lib/libsec-ril.so -- -d /dev/ttyS
     group radio cache inet misc audio
 
 service gpsd /system/bin/gpsd -c /system/etc/gps.xml
-    socket gps stream 0660 1021 system
-    user 1021
+    socket gps seqpacket 0660 gps system
+    user gps
     group system inet
 
 service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
